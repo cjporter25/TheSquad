@@ -1,0 +1,38 @@
+Openpyxl (Working with Excel)
+	Load in the worksheet to work on -->
+		squadData = openpyxl.load_workbook('theSquad.xlsx')
+	Save the worksheet being editted -->
+		squadData.save(filename="theSquad.xlsx")
+	Obtain access to first worksheet in workbook
+		squadSheet = squadData.active
+
+Firebase - Cloud Firestore
+	Adding Firebase Admin ADK to Python App =>
+		pip install --upgrade firebase-admin
+	Initialize Cloud Firestore SDK =>
+		First Generate a private Firebase Key
+			I did - 1/22/23
+			Store JSON file in Admin folder
+	Actual Import =>
+		import firebase_admin
+		from firebase_admin import credentials
+	Initialize Firebase Instance
+		cred = credentials.Certificate("thesquad-*****-********-********-*****-*********.json")
+		firebase_admin.initialize_app(cred)
+	Initialize Database Instance
+		db = firestore.client()
+Firebase - Hosting
+	Emulate Hosting & Backend resources at a locally hosted URL
+		firebase emulators:start
+	Initialize emulators
+		firebase init emulators
+	Initialize Hosting
+		firebase init Hosting
+	Deploy changes to project & web page code in index.html
+		firebase deploy --only hosting
+	
+
+
+Learned idiosyncrocies -->
+	(1) Can use "Event().wait(1)" to have program wait 1 second in between"
+	(2) App should allow for dynamically sized squad sizes from 2-5

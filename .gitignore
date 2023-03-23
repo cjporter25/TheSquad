@@ -1,0 +1,12 @@
+/__pycache__/
+/.firebase/
+/Admin/
+/Admin/RiotAPIInfo.txt
+/Controller/
+/Model/
+/public/
+/Views/
+/firebase.json
+/.firebaserc
+/ts_test.py
+/ts_constants.py

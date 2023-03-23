@@ -1,0 +1,43 @@
+Program Needs
+	Need (1) - 1/9/23 - (SOLVED: See "saveNewSquad")
+		Uniquely Identify a Squad (grouping of specific players)
+			Maybe Useful:
+				- Each summoner name already has unique ID's from RIOT, play off that?
+				- Maybe use the first 4 characters of each summoner to create a unique ID
+					ex: [asdf] [hjkl] [qwer] [uiop]	
+				- Should save ID as "squadID" 
+	Need (2) - 1/9/23
+		Compare user input for specific squad mates to each worksheet's unique ID
+		Update 01/23/23 - Compare user input for specific squad mates to the currently
+						  saved squadID's already in database. If match found, pull info, 
+						  if not, add the squad and begin corrugating data.
+	
+	Need (3) - 01/17/23
+		Close active excel spreadsheet before running code. Open spreadsheet post processing
+	Need (4) - 01/23/23
+		Ask my local community for squads that others have with their friends. This way I
+		can test for additional squads being made.
+		
+openpyxl Needs
+	Need (1) - 1/9/23
+		Pull the unique ID from worksheet 
+		Will Need (1)
+			Develop a way to iterate through worksheets
+	Need (2) - 1/9/23
+		Use xlsxwriter to create a new worksheet when a new squad is found
+	Need (3) - 1/9/23
+		Once confirmed it's a new squad, write a new squads unique ID to 
+	Need (4) - 1/9/23
+		Learn how to determine if a cell contains data or is empty
+
+TESTING IDEAS
+	In case something goes wrong and data was added incorrectly, have an algorithm
+	to reset data points in the database so the system can be ran through again. (DONE)
+	Test Member data accuracy by ensuring matches lost + matches played equals total 
+	matches.
+	Validate number of matches played for each member individually, the squad total,
+	and a manual count of all matchID's for a given match type.
+
+
+
+		

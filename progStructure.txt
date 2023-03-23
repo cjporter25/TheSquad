@@ -1,0 +1,105 @@
+MAIN PREMISE:
+    - Provide useful and meaningful statistics about how a player performs,
+      what their preferences are, SPECIFICALLY when paired with a specific
+      group of other players.
+
+User input
+    - User provides 2-5 summoner names
+TheSquad
+    - Takes in list of summoner names
+        - Obtain Account Information
+            - Reach out to riotGames API and retrieve account information
+              for each player
+            - Store into a working multidimensional array where each index
+              contains 
+        - Create squadID
+            - squadID is a combination of the first 4 characters of each
+              player's acctId (unique). Each set of 4 is called an "idChunk"
+            - squadID will order these chunks alphabetically
+        - Firebase Role 
+            - Compare newly formed squadID to current list of squadID's in database
+                - IF squadID does not exist, populate all necessary collections
+                  and documents. Fill necessary endpoints with "default"
+                - IF squadID does exist, move to managing the shared match list and
+                  adding matches that aren't present
+
+
+In-App Squad Reference Structure
+# player_info = [name, acctId, id, lvl, puuId]
+# 
+#              [   0   ]   [   1   ]   [   2   ]   [   3   ]   [   4   ]
+# squad = [0]  [name0  ]   [name1  ]   [name2  ]   [name3  ]   [name4  ]
+#         [1]  [acctId0]   [acctId1]   [acctId2]   [acctId3]   [acctId4]
+#         [2]  [id0    ]   [id1    ]   [id2    ]   [id3    ]   [id4    ]
+#         [3]  [lvl0   ]   [lvl1   ]   [lvl2   ]   [lvl3   ]   [lvl4   ]
+#         [4]  [puuId0 ]   [puuId1 ]   [puuId2 ]   [puuId3 ]   [puuId4 ]
+
+Champion Characteristics
+    - Each champion will have an array of integers that represent
+      different characteristics
+        - The first value represents the most common position that
+          champion plays on summoners rift
+            - [Top-> 1] [Jungle-> 2] [Mid-> 3] [Bottom-> 4] [Support-> 5] 
+        - The value following represents the primary archetype of the
+          champion. Classification and listing resembles in game league
+            - [Assasin-> 6] [Fighter-> 7] [Mage-> 8] 
+            - [Marksman-> 9] [Support-> 10] [Tank-> 11]
+        - The value following represents off-meta roles and/or additional 
+          qualifiers for describing the champion's function. Can include 6-11
+            - [Enchanter-> 12] [Juggernaut-> 13] [Crowd Control-> 14]
+
+Firebase Structure
+# Parameters:
+#   squadID - Incoming as a string. Length is anywhere from 8 - 20 characters
+# Functions: 
+#   Take the squadID and the squad information and create the scaffolding for the file
+#   structure necessary to hold squad data
+# Result:
+#                                      
+#                                    /       
+#                                    |  --> sharedMatchLists --> sharedARAMMatchList
+#                                    |                              --> NA12345678
+#                                    |                              --> ...  
+#                                    |                       --> sharedSRMatchList
+#                                    |                              --> NA87654321
+#                                    |                              --> ...
+#   squadID --> abcdefghijklmnop --> |  --> squadData
+#                                    |   
+#                                    |  --> squadMembers --> playerData
+#                                    |                          --> member1
+#                                    |                          --> ...
+#                                    |                   --> playerInfo
+#                                    |                          --> member1
+#                                    |                          --> ...
+#                                    \   
+#  
+#
+# sharedMatchList = {NA1_12345678 : 
+#                       {gameDuration : #,
+#                        gameMode : "",
+#                        puuID0 : 
+#                           {championName : "",
+#                            lane : "",
+#                            role : "",
+#                            teamPosition: "",
+#                            win : boolean}
+#                        puuID1 : 
+#                           {championName : "",
+#                            lane : "",
+#                            role : "",
+#                            teamPosition: "",
+#                            win : boolean}
+#                       }
+#                   }
+#
+#***[Assasin-> 6] [Fighter-> 7] [Mage-> 8]
+#***[Marksman-> 9] [Support-> 10] [Tank-> 11]
+#***[Enchanter-> 12] [Juggernaut-> 13] [Crowd Control-> 14]
+#
+# def test_functional_basics(api_key):
+    #Output most recent match data about what character their played and in what role
+    #print("      championName: " + summ1MatchInfo['championName'])          #i.e. EZREAL
+    #print("individualPosition: " + summ1MatchInfo['individualPosition'])    #i.e. BOTTOM
+    #print("      teamPosition: " + summ1MatchInfo['teamPosition'])          #i.e. BOTTOM
+    #print("              role: " + summ1MatchInfo['role'])                  #i.e. CARRY
+    #print("              lane: " + summ1MatchInfo['lane'])                  #i.e. BOTTOM
