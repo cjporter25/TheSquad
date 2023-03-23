@@ -64,7 +64,6 @@ def init_firebase():
     firebase_admin.initialize_app(cred)
 
 def get_riot_api_key():
-    #cred = credentials.Certificate("thesquad-ce16a-firebase-adminsdk-s8j30-47b3600e9e.json")
     #firebase_admin.initialize_app(cred)
     db = firestore.client()
 
@@ -286,6 +285,8 @@ def update_squad(squad, squadID, sharedMatchHistory, puuIDList, db):
 
     save_squad_data_to_squad(squad, db)
 
+# Update the ARAM match list with new matches that are shared and haven't been added
+#   yet.
 def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
     # Create constants for validation at the end of method
     matchesAlreadyAdded = []
@@ -337,6 +338,8 @@ def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number ARAM matches already added from shared list-->" + str(len(matchesAlreadyAdded)))
     print("     Number ARAM matches that were added -->" + str(len(matchesToBeAdded)))
+# Update each member's individual data sets by using the data found in the shared ARAM
+#   match list. If the match's data was already added, it is skipped
 def analyze_shared_ARAM_match_list(squadID, puuIDList, db):
     sharedARAMList = db \
                 .document(u'TheSquad/SquadID') \
@@ -396,6 +399,9 @@ def update_member_ARAM_winrate(dataBuilder, matchesPlayedArch, matchesWonArch):
     newWinrate = (matchesWon/matchesPlayed)
     newWinrate = round(newWinrate, 2)
     return newWinrate
+
+# Update the SR match list with new matches that are shared and haven't been added
+#   yet.
 def update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db):
      # Create constants for validation at the end of method
     matchesAlreadyAdded = []
@@ -450,6 +456,8 @@ def update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db):
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number of SR matches already added from shared list -->" + str(len(matchesAlreadyAdded)))
     print("     Number of SR matches that were added -->" + str(len(matchesToBeAdded)))
+# Update each member's individual data sets by using the data found in the shared SR
+#   match list. If the match's data was already added, it is skipped
 def analyze_shared_SR_match_list(squadID, puuIDList, db):
     sharedSRList = db \
                 .document(u'TheSquad/SquadID') \
