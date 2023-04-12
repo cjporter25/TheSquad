@@ -119,7 +119,10 @@ class Squad:
         # Save match
         self.set_shared_match_history(newSharedMatchList)
 
-    #####Member Variable output methods#####
+    def EXP_find_shared_matches(self, apikey):
+        return
+    
+    #####Member Variable Console Output#####
     def show_squad_info(self):
         print("****Squad Member Info****")
         print("| Members in squad -->")
@@ -160,8 +163,7 @@ class Squad:
         print("         -----------------------")
         print("             Total ARAM: " + str(totalARAM))
         print("             Total SR: " + str(totalSR))
-        print("             Total Shared: " + str(totalShared))
-        
+        print("             Total Shared: " + str(totalShared))      
     def show_member_list(self):
         print("     SQUAD MEMBERS -->")
         for member in self.get_member_list():

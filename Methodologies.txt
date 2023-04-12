@@ -6,17 +6,55 @@ Program Needs
 				- Maybe use the first 4 characters of each summoner to create a unique ID
 					ex: [asdf] [hjkl] [qwer] [uiop]	
 				- Should save ID as "squadID" 
-	Need (2) - 1/9/23
+	Need (2) - 1/9/23 - (SOLVED: See "check_squad_id")
 		Compare user input for specific squad mates to each worksheet's unique ID
 		Update 01/23/23 - Compare user input for specific squad mates to the currently
 						  saved squadID's already in database. If match found, pull info, 
 						  if not, add the squad and begin corrugating data.
 	
-	Need (3) - 01/17/23
+	Need (3) - 01/17/23 (UNEEDED: Went with Firebase services for storage)
 		Close active excel spreadsheet before running code. Open spreadsheet post processing
-	Need (4) - 01/23/23
+	Need (4) - 01/23/23 (SOLVED: Obtained a variety of unique member lists for testing)
 		Ask my local community for squads that others have with their friends. This way I
 		can test for additional squads being made.
+
+Optimizations:
+	Need (1) - 04/11/23
+			Find shared matches makes a number of redundant comparisons to each member's entire 
+		match history list, regardless of whether the currently referenced matchID was found
+		or not. 
+			For example, if the currently referenced matchID is found immediately in the first 
+		index of the next member's match history, the program will still conduct a comparison 
+		calculation for the remainder of that next member's list. Since a matchID is unique, there
+		is no reason to do so.
+			Opt #1 - This method should stop comparisons of the current "next member" being compared to
+		immediately if it is found. Otherwise the execution's time complexity will consistently be
+		the worst case. For each matchID in the first member's list, a total of ((num_members-1) * history_length) 
+		comparisons would occur. An optimization to immediately stop comparisons and jump to the next 
+		list, if the current matchID was found, would prevent this causing a worst case execution every time. 
+			Opt #2 - This method should stop comparisons of a matchID against further members if it was 
+		not found in the second member's list. Due to how the squad relies only on match data where every
+		member is present, if the "2nd" member isn't present then it's guaranteed that the characterstic of
+		"all members present" would be false. Therefore, there is no need to check the remainder of members.
+			Opt #3 - In the event that a shared match is found, that matchID could then be removed from
+		each member's list, thus preventing redundant comparisons on a matchID that has already been confirmed.
+		This is likely to cause extra strain on memory management processing but would overall limit the overall
+		memory used per squad being processed.
+				
+				PRE-OPTIMIZATION
+					(CONSTANT) --> List Size = 20, Members = 5 --> 
+						20 * (20+20+20+20) or 1600 comparisons.
+				POST-OPTIMIZATION
+					(BEST CASE) --> List Size = 20, Members = 5, all 20 matches are shared
+						20 * (1+1+1+1) or 80 comparions.
+						Note: This would only occur if all members in fact played the last 20 games together
+					(WORST CASE) --> List Size = 20, Members = 5, 2nd member doesn't share any matches
+						20 * (20) or 400 comparisons.
+						Note: This would only occur if the second member doesn't share any matches with the first
+				
+		BEST CASE (Members = 5, Standard Match History Length = 20)
+		[NA1_1234567890]
+
 		
 openpyxl Needs
 	Need (1) - 1/9/23

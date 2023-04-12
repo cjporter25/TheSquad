@@ -34,6 +34,10 @@ In-App Squad Reference Structure
 #         [3]  [lvl0   ]   [lvl1   ]   [lvl2   ]   [lvl3   ]   [lvl4   ]
 #         [4]  [puuId0 ]   [puuId1 ]   [puuId2 ]   [puuId3 ]   [puuId4 ]
 
+Squad Execution Metrics to Track
+    - Number of Squad Members
+    - Count for number of recent matches pulled
+
 Champion Characteristics
     - Each champion will have an array of integers that represent
       different characteristics

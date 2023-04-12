@@ -13,7 +13,7 @@ def open_homepage():
     init_firebase()
     APIKEY = get_riot_api_key()
 
-    memberList = TEST_SQUAD_LIST_01
+    memberList = TEST_SQUAD_LIST_4
     squad = create_new_squad(memberList, APIKEY)
     build_squad(squad)
     print("***Updated or Added Squad Successfully***")
@@ -22,9 +22,8 @@ def open_homepage():
 
     end = time.time()
     print("Project Execution Time: " + str(end-start))
-    
-    webbrowser.open('ts_home.html')
 
+    webbrowser.open_new('https://thesquad-ce16a.web.app')
 def create_new_squad(memberList, APIKEY):
     squad = Squad()
     squad.set_member_list(memberList)
@@ -32,6 +31,10 @@ def create_new_squad(memberList, APIKEY):
     squad.gather_squad_member_info(APIKEY)
     squad.create_squad_id()
     squad.show_squad_ID()
+    #MIN_MATCH_HISTORY_COUNT = "0"
+    #REC_MATCH_HISTORY_COUNT = "90"
+    #MAX_MATCH_HISTORY_COUNT = "100"
+    #DEF_MATCH_HISTORY_COUNT = "20"
     squad.gather_squad_match_history(REC_MATCH_HISTORY_COUNT, APIKEY)
     squad.find_shared_matches(APIKEY)
     squad.show_shared_match_history()
@@ -56,6 +59,7 @@ def handle_user_input():
 def test(APIKEY):
     test_response_codes(APIKEY)
     test_response_rate_limit_exceeded(APIKEY)
+
 open_homepage()
 
 
