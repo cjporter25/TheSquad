@@ -4,7 +4,7 @@
 This service focuses on providing users with interesting, fun, and useful metrics about how a specific group of players perform together.
 
 •	After gaining approval through the Riot Games Developer program, the data necessary is accessed by making requests to their proprietary API. 
-This data is then (1) examined via a local data model that defines what a Squad is, (2) a series of algorithms then performs analyses on this model, 
+This data is then (1) examined via a local data model that defines what a "Squad" is, (2) a series of algorithms then performs analyses on this model, 
 (3) a logic center facilitates the organization and output of the resulting data, and (4) uses a connection to a cloud based Firestore database for 
 permanent storage.
 
