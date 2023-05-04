@@ -2,6 +2,7 @@
 #   About: Contains all data structure necessary to scaffold new squad
 #           information, add to what's already there, or analyze data
 from ts_riot_api import *
+from ts_constants import *
 
 class Squad:
     # Intializer used for testing a fully pre-built test squad object
@@ -43,10 +44,14 @@ class Squad:
     def gather_squad_member_info(self, apiKey):
         print("Gathering member information...")
         newMemberInfo = []
+        count = 0
         for member in self.get_member_list():
             newMemberInfo.append(get_player_info(member, apiKey))
-            self.set_riot_request_count(self.get_riot_request_count() + 1) #Increment count
+            count = count + 1
+        self.set_riot_request_count(self.get_riot_request_count() + count) #Increment count
         self.set_member_info(newMemberInfo)
+        EXE_META_DATA['numMembers'] = self.get_squad_size()
+        EXE_META_DATA['memDataReqCount'] = count
     def create_squad_id(self):
         tempSquadID = []
 
@@ -70,13 +75,17 @@ class Squad:
         self.set_squad_id(newSquadID)
     # Sets the squad's match history list to a list of lists object where each 1st dimension 
     #   index is specific to each player and each 2nd dimension array contains their match history
-    def gather_squad_match_history(self, count, apiKey):
+    def gather_squad_match_history(self, reqAmount, apiKey):
         print("Gathering match histories...")
         newMatchHistory = []
+        count = 0
         for member in self.get_member_info():
-            newMatchHistory.append(get_match_history(member[4], count, apiKey))
-            self.set_riot_request_count(self.get_riot_request_count() + 1) #Increment count
+            newMatchHistory.append(get_match_history(member[4], reqAmount, apiKey))
+            count = count + 1
+        self.set_riot_request_count(self.get_riot_request_count() + count) #Increment count   
         self.set_squad_match_history(newMatchHistory)
+        EXE_META_DATA['matchHistorySize'] = reqAmount
+        EXE_META_DATA['memMatchHistoryReqCount'] = count
     # Parses through the various match histories and builds a new list containing only 
     #   the matchID's where every member is present. Each match's data set, from this
     #   shared list, is then retrieve and organized in a strict format.
@@ -85,6 +94,7 @@ class Squad:
         newSharedMatchList = {}
         squadMatchHistory = self.get_squad_match_history()
         numOfMembers = len(squadMatchHistory)
+        count = 0
         # Used first match history in the list as a reference list to compare against the others
         for matchID in squadMatchHistory[0]:
             wholeSquadPresent = True

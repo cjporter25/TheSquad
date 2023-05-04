@@ -10,6 +10,24 @@ from threading import Event
 # Specific firestore call that increments a reference valu
 INCREMENT = firestore.Increment(1)
 
+#EXE_META_DATA = {'numMembers' : 0, 
+#                 'memDataReqCount' : 0,
+#                 'matchHistorySize': 0,
+#                 'memMatchHistoryReqCount' : 0,
+#                 'totalSharedMatches' : 0,
+#                 'numARAMSharedMatches' : 0,
+#                 'numSRSharedMatches' : 0,
+#                 'matchDataReqCount' : 0,
+#                 'squadExeTime' : 0.00,
+#                 'squadExists' : False,
+#                 'numARAMMatchesPresent' : 0,
+#                 'numARAMMatchesPushed' : 0,
+#                 'numSRMatchesPresent' : 0,
+#                 'numSRMatchesPushed' : 0,
+#                 'firebaseExeTime' : 0.00,
+#                 'projExeTime' : 0.00
+#                 }
+
 # Helper method to help developer add champions and their associated data
 def add_champ_data():
     # Initialize connection to database
@@ -352,7 +370,7 @@ def analyze_shared_ARAM_match_list(squadID, puuIDList, db):
             return
         aramMatchData = matchID.to_dict()
         if(aramMatchData['readStatus'] == False):
-            print("Pushing ARAM Data from --> " + matchID.id)
+            print("         Pushing ARAM Data from --> " + matchID.id)
             for id in aramMatchData:
                 if(id in puuIDList):
                     champArch = get_champ_archetype(aramMatchData[id][0], db)
@@ -470,7 +488,7 @@ def analyze_shared_SR_match_list(squadID, puuIDList, db):
             return
         srMatchData = matchID.to_dict()
         if(srMatchData['readStatus'] == False):
-            print("Pushing SR Data from --> " + matchID.id)
+            print("         Pushing SR Data from --> " + matchID.id)
             for id in srMatchData:
                 if(id in puuIDList):
                     champArch = get_champ_archetype(srMatchData[id][0], db)

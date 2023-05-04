@@ -13,7 +13,14 @@ def open_homepage():
     init_firebase()
     APIKEY = get_riot_api_key()
 
-    memberList = TEST_SQUAD_LIST_4
+    #TEST_SQUAD_LIST_01 = ["ShenDaddyyDom", "PureLunar", "Serandipityyy"]
+    #TEST_SQUAD_LIST_0 = ["Chrispychickn25", "ShenDaddyyDom", "PureLunar", "Serandipityyy"]
+    #TEST_SQUAD_LIST_1 = ["Chrispychickn25", "ShenDaddyyDom", "PureLunar"]
+    #TEST_SQUAD_LIST_2 = ["Chrispychickn25", "ShenDaddyyDom"]
+    #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
+    #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
+
+    memberList = TEST_SQUAD_LIST_0
     squad = create_new_squad(memberList, APIKEY)
     build_squad(squad)
     print("***Updated or Added Squad Successfully***")
