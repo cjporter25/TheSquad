@@ -20,7 +20,7 @@ def open_homepage():
     #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
     #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
 
-    memberList = TEST_SQUAD_LIST_0
+    memberList = TEST_SQUAD_LIST_01
     squad = create_new_squad(memberList, APIKEY)
     build_squad(squad)
     print("***Updated or Added Squad Successfully***")
