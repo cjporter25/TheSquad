@@ -76,6 +76,31 @@ TESTING IDEAS
 	Validate number of matches played for each member individually, the squad total,
 	and a manual count of all matchID's for a given match type.
 
+QUANTIFYING WINRATE VS. GAMES PLAYED (Per Archetype)
+To quantify the significance of win rate versus the amount of games played among a group of players, 
+you can use a statistical measure called confidence intervals. Confidence intervals provide a range of values 
+within which the true win rate is likely to fall. This will help you assess the reliability of the
+observed win rates and make comparisons between players.
+
+Here's a step-by-step approach to quantifying the significance of win rate:
+
+(1). Calculate the confidence intervals for each player's win rate using a suitable method such as the Wilson score 
+interval or the Agresti-Coull interval. These intervals take into account both the number of games played and the win rate.
+
+(2). Compare the confidence intervals of the players. A narrower confidence interval indicates a more precise estimate 
+and a higher level of confidence in the win rate. Players with narrower intervals are considered more reliable in 
+terms of their win rate.
+
+(3). Consider the overlap between the confidence intervals. If one player's confidence interval entirely overlaps 
+with another player's, it suggests that there is no statistically significant difference between their win rates. 
+In such cases, you may need to consider other factors to determine the best player.
+
+(4). Take into account the number of games played as well. Players with a larger number of games played have a more 
+stable win rate estimate, so their win rates are generally more reliable than those with fewer games played.
+
+By combining these steps, you can obtain a quantitative assessment of the significance of win rate versus the amount 
+of games played and identify the player who performs best as a Mage.
+
 
 
 		
