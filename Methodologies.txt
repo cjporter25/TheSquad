@@ -78,8 +78,8 @@ TESTING IDEAS
 
 QUANTIFYING WINRATE VS. GAMES PLAYED (Per Archetype)
 To quantify the significance of win rate versus the amount of games played among a group of players, 
-you can use a statistical measure called confidence intervals. Confidence intervals provide a range of values 
-within which the true win rate is likely to fall. This will help you assess the reliability of the
+I can use a statistical measure called confidence intervals. Confidence intervals provide a range of values 
+within which the true win rate is likely to fall. This will help me assess the reliability of the
 observed win rates and make comparisons between players.
 
 Here's a step-by-step approach to quantifying the significance of win rate:
@@ -98,7 +98,7 @@ In such cases, you may need to consider other factors to determine the best play
 (4). Take into account the number of games played as well. Players with a larger number of games played have a more 
 stable win rate estimate, so their win rates are generally more reliable than those with fewer games played.
 
-By combining these steps, you can obtain a quantitative assessment of the significance of win rate versus the amount 
+By combining these steps, I can obtain a quantitative assessment of the significance of win rate versus the amount 
 of games played and identify the player who performs best as a Mage.
 
 
