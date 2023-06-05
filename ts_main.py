@@ -20,8 +20,8 @@ def open_homepage():
     #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
     #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
 
-    memberList = TEST_SQUAD_LIST_3
-    squad = create_new_squad(memberList, APIKEY)
+    memberList = TEST_SQUAD_LIST_4
+    squad = new_squad(memberList, APIKEY)
     build_squad(squad)
     print("***Updated or Added Squad Successfully***")
     Event().wait(1)
@@ -31,7 +31,8 @@ def open_homepage():
     print("Project Execution Time: " + str(end-start))
 
     webbrowser.open_new('https://thesquad-ce16a.web.app')
-def create_new_squad(memberList, APIKEY):
+    print(EXE_META_DATA)
+def new_squad(memberList, APIKEY):
     squad = Squad()
     squad.set_member_list(memberList)
     squad.show_member_list()

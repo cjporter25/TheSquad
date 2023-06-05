@@ -84,7 +84,7 @@ class Squad:
             count = count + 1
         self.set_riot_request_count(self.get_riot_request_count() + count) #Increment count   
         self.set_squad_match_history(newMatchHistory)
-        EXE_META_DATA['matchHistorySize'] = reqAmount
+        EXE_META_DATA['matchHistoryQuerySize'] = int(reqAmount)
         EXE_META_DATA['memMatchHistoryReqCount'] = count
     # Parses through the various match histories and builds a new list containing only 
     #   the matchID's where every member is present. Each match's data set, from this
@@ -128,6 +128,7 @@ class Squad:
                 newSharedMatchList[matchID] = newMatchData
         # Save match
         self.set_shared_match_history(newSharedMatchList)
+        EXE_META_DATA['matchDataReqCount'] = self.get_riot_request_count()
 
     def EXP_find_shared_matches(self, apikey):
         return
@@ -172,8 +173,11 @@ class Squad:
                 totalSR = totalSR + 1
         print("         -----------------------")
         print("             Total ARAM: " + str(totalARAM))
+        EXE_META_DATA['totalSharedARAMMatches'] = totalARAM
         print("             Total SR: " + str(totalSR))
-        print("             Total Shared: " + str(totalShared))      
+        EXE_META_DATA['totalSharedSRMatches'] = totalSR
+        print("             Total Shared: " + str(totalShared))
+        EXE_META_DATA['totalSharedMatches'] = totalShared      
     def show_member_list(self):
         print("     SQUAD MEMBERS -->")
         for member in self.get_member_list():

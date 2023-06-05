@@ -10,22 +10,23 @@ from threading import Event
 # Specific firestore call that increments a reference valu
 INCREMENT = firestore.Increment(1)
 
-#EXE_META_DATA = {'numMembers' : 0, 
-#                 'memDataReqCount' : 0,
-#                 'matchHistorySize': 0,
-#                 'memMatchHistoryReqCount' : 0,
-#                 'totalSharedMatches' : 0,
-#                 'numARAMSharedMatches' : 0,
-#                 'numSRSharedMatches' : 0,
+#EXE_META_DATA = {
+#                 'firebaseExeTime' : 0.00,
 #                 'matchDataReqCount' : 0,
-#                 'squadExeTime' : 0.00,
-#                 'squadExists' : False,
+#                 'matchHistorySize': 0,
+#                 'memDataReqCount' : 0,
+#                 'memMatchHistoryReqCount' : 0,
 #                 'numARAMMatchesPresent' : 0,
 #                 'numARAMMatchesPushed' : 0,
+#                 'numARAMSharedMatches' : 0,
+#                 'numMembers' : 0, 
 #                 'numSRMatchesPresent' : 0,
 #                 'numSRMatchesPushed' : 0,
-#                 'firebaseExeTime' : 0.00,
-#                 'projExeTime' : 0.00
+#                 'numSRSharedMatches' : 0,
+#                 'projExeTime: 0.00,
+#                 'squadExeTime' : 0.00,
+#                 'squadExists' : False,
+#                 'totalSharedMatches' : 0,
 #                 }
 
 # Helper method to help developer add champions and their associated data
@@ -77,6 +78,18 @@ def save_squad_data_to_squad(squad, db):
     sortedDataList = {i: squadDataList[i] for i in metricsList}
     squad.set_squad_data(sortedDataList)
 
+def save_exe_meta_data(db):
+    
+    sysDate = date.today()
+    currDateLog = sysDate.strftime("%m%d%Y")
+    sysTime = datetime.now()
+    currTimeLog = sysTime.strftime("%H%M%S")
+
+    dataLogID = (currDateLog + "." + currTimeLog)
+    dataBuilder = db.collection(u'Data').document(dataLogID)
+    dataBuilder.set(EXE_META_DATA)
+
+
 def init_firebase():
     cred = credentials.Certificate("firebase.json")
     firebase_admin.initialize_app(cred)
@@ -106,10 +119,12 @@ def check_squad_id(squadID, db):
     # If squad already exists, return TRUE
     if doesSquadIDExist:
         print("     SquadID already exists!")
+        EXE_META_DATA['squadExists'] = doesSquadIDExist
         return doesSquadIDExist #TRUE
     # If squad doesn't exist, return FALSE
     else: 
         print("     SquadID does not yet exist, adding now!")
+        EXE_META_DATA['squadExists'] = doesSquadIDExist
         return doesSquadIDExist #FALSE
 
 def build_squad(squad):
@@ -303,6 +318,8 @@ def update_squad(squad, squadID, sharedMatchHistory, puuIDList, db):
 
     save_squad_data_to_squad(squad, db)
 
+    save_exe_meta_data(db)
+
 # Update the ARAM match list with new matches that are shared and haven't been added
 #   yet.
 def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
@@ -355,7 +372,9 @@ def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
                     newMatchData[puuID] = playerInfo
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number ARAM matches already added from shared list-->" + str(len(matchesAlreadyAdded)))
+    EXE_META_DATA['sharedARAMMatchesPresent'] = len(matchesAlreadyAdded)
     print("     Number ARAM matches that were added -->" + str(len(matchesToBeAdded)))
+    EXE_META_DATA['sharedARAMMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared ARAM
 #   match list. If the match's data was already added, it is skipped
 def analyze_shared_ARAM_match_list(squadID, puuIDList, db):
@@ -473,7 +492,9 @@ def update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db):
                     newMatchData[puuID] = playerInfo
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number of SR matches already added from shared list -->" + str(len(matchesAlreadyAdded)))
+    EXE_META_DATA['sharedSRMatchesPresent'] = len(matchesAlreadyAdded)
     print("     Number of SR matches that were added -->" + str(len(matchesToBeAdded)))
+    EXE_META_DATA['sharedSRMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared SR
 #   match list. If the match's data was already added, it is skipped
 def analyze_shared_SR_match_list(squadID, puuIDList, db):
@@ -848,7 +869,10 @@ def update_squad_SR_winrate(squadID, puuIDList, db):
     srTotalPlayed = memData['SR_totalMatchesPlayed']
     srTotalWon = memData['SR_totalMatchesWon']
     srTotalLost = memData['SR_totalMatchesLost']
-    srWinrate = (srTotalWon/srTotalPlayed)
+    if(srTotalWon == 0):
+        srWinrate = 0.00
+    else:
+        srWinrate = (srTotalWon/srTotalPlayed)
     srWinrate = round(srWinrate, 2)
     dataBuilder = db \
                     .document(u'TheSquad/SquadID') \
@@ -859,6 +883,11 @@ def update_squad_SR_winrate(squadID, puuIDList, db):
                      u'SR_matchesWon': srTotalWon,
                      u'SR_winrate': srWinrate}, merge=True)
 
+def get_champ_archetype(champName, db):
+    champDataList = db.document(u'TheSquad/championData').get()
+    champList = champDataList.to_dict()
+    archetype = champList[champName][1]
+    return archetype
 
 # Usage - Reset data individual member data points and readStatus of each
 #         match to FALSE. This doubles as a means to cleanly add data points
@@ -911,8 +940,4 @@ def clear_all_member_data_sets(squadID, puuIDList, db):
                     .collection(squadID) \
                     .document(u'SquadData')
     squadBuilder.set(SQUAD_DATA, merge=True)
-def get_champ_archetype(champName, db):
-    champDataList = db.document(u'TheSquad/championData').get()
-    champList = champDataList.to_dict()
-    archetype = champList[champName][1]
-    return archetype
+
