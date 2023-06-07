@@ -373,7 +373,7 @@ def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number ARAM matches already added from shared list-->" + str(len(matchesAlreadyAdded)))
     EXE_META_DATA['sharedARAMMatchesPresent'] = len(matchesAlreadyAdded)
-    print("     Number ARAM matches that were added -->" + str(len(matchesToBeAdded)))
+    print("     Number ARAM matches to be added -->" + str(len(matchesToBeAdded)))
     EXE_META_DATA['sharedARAMMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared ARAM
 #   match list. If the match's data was already added, it is skipped
@@ -493,7 +493,7 @@ def update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db):
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number of SR matches already added from shared list -->" + str(len(matchesAlreadyAdded)))
     EXE_META_DATA['sharedSRMatchesPresent'] = len(matchesAlreadyAdded)
-    print("     Number of SR matches that were added -->" + str(len(matchesToBeAdded)))
+    print("     Number of SR matches to be added -->" + str(len(matchesToBeAdded)))
     EXE_META_DATA['sharedSRMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared SR
 #   match list. If the match's data was already added, it is skipped

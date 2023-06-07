@@ -9,7 +9,7 @@ import webbrowser
 def open_homepage():
     #test(APIKEY)
     #memberList = handleUserInput()
-    start = time.time()
+    projStart = time.time()
     init_firebase()
     APIKEY = get_riot_api_key()
 
@@ -20,18 +20,31 @@ def open_homepage():
     #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
     #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
 
-    memberList = TEST_SQUAD_LIST_4
+    squadStart = time.time()
+    memberList = TEST_SQUAD_LIST_2
     squad = new_squad(memberList, APIKEY)
+    squadEnd = time.time()
+    totalSquadTime = round((squadEnd - squadStart), 2)
+    print("***Squad Look-up Was Successful***")
+
+    firebaseStart = time.time()
     build_squad(squad)
-    print("***Updated or Added Squad Successfully***")
-    Event().wait(1)
+    firebaseEnd = time.time()
+    totalFirebaseTime = round((firebaseEnd - firebaseStart), 2)
+    print("***Updated or Added Squad to Database Successfully***")
+
     squad.show_squad_data()
+    projEnd = time.time()
+    totalExeTime = round((projEnd - projStart), 2)
 
-    end = time.time()
-    print("Project Execution Time: " + str(end-start))
+    EXE_META_DATA['exeTimeSquad'] = totalSquadTime
+    EXE_META_DATA['exeTimeFirebase'] = totalFirebaseTime
+    EXE_META_DATA['exeTimeProj'] = totalExeTime
+    print("Project Execution Time: " + str(projEnd - projStart))
 
-    webbrowser.open_new('https://thesquad-ce16a.web.app')
+    #webbrowser.open_new('https://thesquad-ce16a.web.app')
     print(EXE_META_DATA)
+
 def new_squad(memberList, APIKEY):
     squad = Squad()
     squad.set_member_list(memberList)
