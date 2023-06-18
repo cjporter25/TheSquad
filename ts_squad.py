@@ -128,7 +128,7 @@ class Squad:
                 newSharedMatchList[matchID] = newMatchData
         # Save match
         self.set_shared_match_history(newSharedMatchList)
-        EXE_META_DATA['matchDataReqCount'] = self.get_riot_request_count()
+        EXE_META_DATA['totalRiotReqCount'] = self.get_riot_request_count()
 
     def EXP_find_shared_matches(self, apikey):
         return

@@ -321,7 +321,7 @@ def add_shared_SR_match_history(squadID, sharedMatchHistory, puuIDList, db):
             matchListBuilder.set(newMatchData, merge=True)
 
 def update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db):
-    #clear_all_member_data_sets(squadID, memberInfo, db)
+    clear_all_member_data_sets(squadID, memberInfo, db)
 
     update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db)
     analyze_shared_ARAM_match_list(squadID, puuIDList, db)
@@ -388,9 +388,9 @@ def update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db):
                     newMatchData[puuID] = playerInfo
                 matchListBuilder.set(newMatchData, merge=True)
     print("     Number ARAM matches already added from shared list-->" + str(len(matchesAlreadyAdded)))
-    EXE_META_DATA['sharedARAMMatchesPresent'] = len(matchesAlreadyAdded)
+    EXE_META_DATA['sharedARAMMatchesAlreadyPresent'] = len(matchesAlreadyAdded)
     print("     Number ARAM matches to be added -->" + str(len(matchesToBeAdded)))
-    EXE_META_DATA['sharedARAMMatchesPushed'] = len(matchesToBeAdded)
+    #EXE_META_DATA['sharedARAMMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared ARAM
 #   match list. If the match's data was already added, it is skipped
 def analyze_shared_ARAM_match_list(squadID, puuIDList, db):
@@ -405,6 +405,7 @@ def analyze_shared_ARAM_match_list(squadID, puuIDList, db):
             return
         aramMatchData = matchID.to_dict()
         if(aramMatchData['readStatus'] == False):
+            EXE_META_DATA['sharedARAMMatchesPushed'] += 1
             print("         Pushing ARAM Data from --> " + matchID.id)
             for id in aramMatchData:
                 if(id in puuIDList):
@@ -507,10 +508,10 @@ def update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db):
                                   sharedMatchHistory[localMatchID][puuID]['win']]
                     newMatchData[puuID] = playerInfo
                 matchListBuilder.set(newMatchData, merge=True)
-    print("     Number of SR matches already added from shared list -->" + str(len(matchesAlreadyAdded)))
-    EXE_META_DATA['sharedSRMatchesPresent'] = len(matchesAlreadyAdded)
-    print("     Number of SR matches to be added -->" + str(len(matchesToBeAdded)))
-    EXE_META_DATA['sharedSRMatchesPushed'] = len(matchesToBeAdded)
+    print("     Number of SR matches already added from shared list --> " + str(len(matchesAlreadyAdded)))
+    EXE_META_DATA['sharedSRMatchesAlreadyPresent'] = len(matchesAlreadyAdded)
+    print("     Number of SR matches to be added --> " + str(len(matchesToBeAdded)))
+    #EXE_META_DATA['sharedSRMatchesPushed'] = len(matchesToBeAdded)
 # Update each member's individual data sets by using the data found in the shared SR
 #   match list. If the match's data was already added, it is skipped
 def analyze_shared_SR_match_list(squadID, puuIDList, db):
@@ -525,6 +526,7 @@ def analyze_shared_SR_match_list(squadID, puuIDList, db):
             return
         srMatchData = matchID.to_dict()
         if(srMatchData['readStatus'] == False):
+            EXE_META_DATA['sharedSRMatchesPushed'] += 1
             print("         Pushing SR Data from --> " + matchID.id)
             for id in srMatchData:
                 if(id in puuIDList):
@@ -921,7 +923,7 @@ def clear_all_member_data_sets(squadID, memberInfo, db):
                     .collection(u'MemberData') \
                     .document(member[4])
         squadBuilder.set(MEMBER_DATA)
-        squadBuilder.set({u'summonerName': member[0]})
+        squadBuilder.set({u'summonerName': member[0]}, merge=True)
     
     # Clear all matches in the shared ARAM list by changing the readStatus to FALSE
     sharedARAMList = db \
@@ -939,7 +941,7 @@ def clear_all_member_data_sets(squadID, memberInfo, db):
                 .document(matchID.id)
         currMatch.set({u'readStatus': False}, merge=True)
     
-    # Clear all matches in the shared ARAM list by changing the readStatus to TRUE
+    # Clear all matches in the shared ARAM list by changing the readStatus to FALSE
     sharedSRList = db \
                 .document(u'TheSquad/SquadID') \
                 .collection(squadID) \
