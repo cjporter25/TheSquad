@@ -22,7 +22,7 @@ def open_homepage():
     #Shensëi
 
     squadStart = time.time()
-    memberList = ["Chrispychickn25", "Shensëi", "Serandipityyy"]
+    memberList = ["PureLunar", "Shensëi"]
     squad = new_squad(memberList, APIKEY)
     squadEnd = time.time()
     totalSquadTime = round((squadEnd - squadStart), 2)

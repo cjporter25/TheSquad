@@ -144,7 +144,6 @@ def validate_summoner_names(squadID, puuIDList, memberInfo, db):
                     dataBuilder.set({u'summonerName': newName}, merge=True)
             else:
                 dataBuilder.set({u'summonerName': newName}, merge=True)
-    print("***Validated Summoner Names. Accounted for Changes***")
 
 def build_squad(squad):
 
@@ -703,7 +702,10 @@ def update_squad_ARAM_winrate(squadID, puuIDList, db):
     aramTotalPlayed = memData['ARAM_totalMatchesPlayed']
     aramTotalWon = memData['ARAM_totalMatchesWon']
     aramTotalLost = memData['ARAM_totalMatchesLost']
-    aramWinrate = (aramTotalWon/aramTotalPlayed)
+    if(aramTotalWon == 0):
+        aramWinrate = 0.00
+    else:
+        aramWinrate = (aramTotalWon/aramTotalPlayed)
     aramWinrate = round(aramWinrate, 2)
     dataBuilder = db \
                     .document(u'TheSquad/SquadID') \
