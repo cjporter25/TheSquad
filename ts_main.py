@@ -19,9 +19,10 @@ def open_homepage():
     #TEST_SQUAD_LIST_2 = ["Chrispychickn25", "ShenDaddyyDom"]
     #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
     #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
+    #Shensëi
 
     squadStart = time.time()
-    memberList = TEST_SQUAD_LIST_2
+    memberList = ["Chrispychickn25", "Shensëi", "Serandipityyy"]
     squad = new_squad(memberList, APIKEY)
     squadEnd = time.time()
     totalSquadTime = round((squadEnd - squadStart), 2)
@@ -56,7 +57,7 @@ def new_squad(memberList, APIKEY):
     #REC_MATCH_HISTORY_COUNT = "90"
     #MAX_MATCH_HISTORY_COUNT = "100"
     #DEF_MATCH_HISTORY_COUNT = "20"
-    squad.gather_squad_match_history(REC_MATCH_HISTORY_COUNT, APIKEY)
+    squad.gather_squad_match_history(MIN_MATCH_HISTORY_COUNT, APIKEY)
     squad.find_shared_matches(APIKEY)
     squad.show_shared_match_history()
     squad.show_request_count()

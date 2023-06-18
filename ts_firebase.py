@@ -6,6 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from ts_constants import *
 from threading import Event
+    #Event().wait(1)
 
 # Specific firestore call that increments a reference valu
 INCREMENT = firestore.Increment(1)
@@ -89,7 +90,6 @@ def save_exe_meta_data(db):
     dataBuilder = db.collection(u'Data').document(dataLogID)
     dataBuilder.set(EXE_META_DATA)
 
-
 def init_firebase():
     cred = credentials.Certificate("firebase.json")
     firebase_admin.initialize_app(cred)
@@ -127,6 +127,25 @@ def check_squad_id(squadID, db):
         EXE_META_DATA['squadExists'] = doesSquadIDExist
         return doesSquadIDExist #FALSE
 
+def validate_summoner_names(squadID, puuIDList, memberInfo, db):
+    for puuID in puuIDList:
+        dataBuilder = db \
+                .document(u'TheSquad/SquadID') \
+                    .collection(squadID) \
+                    .document(u'SquadMembers') \
+                    .collection(u'MemberData') \
+                    .document(puuID)
+        memData = dataBuilder.get().to_dict()
+        for member in memberInfo:
+            newName = member[0]
+            if ("summonerName" in memData):
+                oldName = memData["summonerName"]
+                if(puuID == member[4] and oldName != newName):
+                    dataBuilder.set({u'summonerName': newName}, merge=True)
+            else:
+                dataBuilder.set({u'summonerName': newName}, merge=True)
+    print("***Validated Summoner Names. Accounted for Changes***")
+
 def build_squad(squad):
 
     #Initiate Firebase session
@@ -146,8 +165,8 @@ def build_squad(squad):
     #Check for whether the squadID exists
     if squadExists:
         print("     Squad ID Exists. Updating Now...")
-        Event().wait(1)
-        update_squad(squad, squadID, sharedMatchHistory, puuIDList, db)
+        validate_summoner_names(squadID, puuIDList, memberInfo, db)
+        update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db)
     else:
         print("     Squad not in database. Adding squad using ID#: " + squadID)
 
@@ -157,7 +176,7 @@ def build_squad(squad):
 
         add_squad_members(squadID, memberInfo, db)
 
-        update_squad(squad, squadID, sharedMatchHistory, puuIDList, db)
+        update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db)
 
 def create_squad_data_set(squadID, squadSize, db):
     # Use builder to create squadID/"ID"/squadData/
@@ -192,7 +211,6 @@ def add_squad_members(squadID, memberInfo, db):
     add_member_info(squadID, memberInfo, db)
 def add_member_info(squadID, memberInfo, db):
     print("Adding Member Info...")
-    Event().wait(1)
     # For each member in the squad -->
     for member in memberInfo:
         # Create and reference their document inside "memberInfo" using their name
@@ -211,7 +229,6 @@ def add_member_info(squadID, memberInfo, db):
         }, merge=True) 
 def create_member_data_set(squadID, memberInfo, db):
     print("Building Member Data Set...")
-    Event().wait(1)
     for member in memberInfo:
         squadBuilder = db \
                     .document(u'TheSquad/SquadID') \
@@ -220,10 +237,9 @@ def create_member_data_set(squadID, memberInfo, db):
                     .collection(u'MemberData') \
                     .document(member[4])
         squadBuilder.set(MEMBER_DATA)
-        squadBuilder.set({u'summonerName': member[0]})
+        squadBuilder.set({u'summonerName': member[0]}, merge=True)
 def add_squad_shared_match_lists(squadID, sharedMatchHistory, puuIDList, db):
     print("Adding Shared Match Lists...")
-    Event().wait(1)
     # Retrieve current time to track what time squad was added
     currTime = get_current_time()
     #Retrieve current date to track what day squad was added
@@ -305,14 +321,15 @@ def add_shared_SR_match_history(squadID, sharedMatchHistory, puuIDList, db):
                 newMatchData[puuID] = playerInfo
             matchListBuilder.set(newMatchData, merge=True)
 
-def update_squad(squad, squadID, sharedMatchHistory, puuIDList, db):
-    #clear_all_member_data_sets(squadID, puuIDList, db)
+def update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db):
+    #clear_all_member_data_sets(squadID, memberInfo, db)
+
     update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db)
     analyze_shared_ARAM_match_list(squadID, puuIDList, db)
-    Event().wait(1)
+
     update_shared_SR_match_list(squadID, sharedMatchHistory, puuIDList, db)
     analyze_shared_SR_match_list(squadID, puuIDList, db)
-    Event().wait(1)
+
     update_squad_ARAM_data_set(squadID, puuIDList, db)
     update_squad_SR_data_set(squadID, puuIDList, db)
 
@@ -892,16 +909,17 @@ def get_champ_archetype(champName, db):
 # Usage - Reset data individual member data points and readStatus of each
 #         match to FALSE. This doubles as a means to cleanly add data points
 #         when and if needed (except for the summonerName)
-def clear_all_member_data_sets(squadID, puuIDList, db):
+def clear_all_member_data_sets(squadID, memberInfo, db):
     # Clear member data list by setting each data point to 0
-    for id in puuIDList:
+    for member in memberInfo:
         squadBuilder = db \
                     .document(u'TheSquad/SquadID') \
                     .collection(squadID) \
                     .document(u'SquadMembers') \
                     .collection(u'MemberData') \
-                    .document(id)
-        squadBuilder.set(MEMBER_DATA, merge=True)
+                    .document(member[4])
+        squadBuilder.set(MEMBER_DATA)
+        squadBuilder.set({u'summonerName': member[0]})
     
     # Clear all matches in the shared ARAM list by changing the readStatus to FALSE
     sharedARAMList = db \
@@ -940,4 +958,5 @@ def clear_all_member_data_sets(squadID, puuIDList, db):
                     .collection(squadID) \
                     .document(u'SquadData')
     squadBuilder.set(SQUAD_DATA, merge=True)
+    
 
