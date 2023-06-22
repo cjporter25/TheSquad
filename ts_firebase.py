@@ -321,7 +321,7 @@ def add_shared_SR_match_history(squadID, sharedMatchHistory, puuIDList, db):
             matchListBuilder.set(newMatchData, merge=True)
 
 def update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db):
-    clear_all_member_data_sets(squadID, memberInfo, db)
+    #clear_all_member_data_sets(squadID, memberInfo, db)
 
     update_shared_ARAM_match_list(squadID, sharedMatchHistory, puuIDList, db)
     analyze_shared_ARAM_match_list(squadID, puuIDList, db)

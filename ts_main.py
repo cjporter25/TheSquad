@@ -14,17 +14,17 @@ def open_homepage():
     init_firebase()
     APIKEY = get_riot_api_key()
 
-    #TEST_SQUAD_LIST_01 = ["ShenDaddyyDom", "PureLunar", "Serandipityyy"]
-    #TEST_SQUAD_LIST_0 = ["Chrispychickn25", "ShenDaddyyDom", "PureLunar", "Serandipityyy"]
-    #TEST_SQUAD_LIST_1 = ["Chrispychickn25", "ShenDaddyyDom", "PureLunar"]
-    #TEST_SQUAD_LIST_2 = ["Chrispychickn25", "ShenDaddyyDom"]
+    #TEST_SQUAD_LIST_01 = ["Shensëi", "PureLunar", "Serandipityyy"]
+    #TEST_SQUAD_LIST_0 = ["Chrispychickn25", "Shensëi", "PureLunar", "Serandipityyy"]
+    #TEST_SQUAD_LIST_1 = ["Chrispychickn25", "Shensëi", "PureLunar"]
+    #TEST_SQUAD_LIST_2 = ["Chrispychickn25", "Shensëi"]
     #TEST_SQUAD_LIST_3 = ["Chrispychickn25", "PureLunar", "Serandipityyy"]
-    #TEST_SQUAD_LIST_4 = ["ShenDaddyyDom", "PureLunar"]
+    #TEST_SQUAD_LIST_4 = ["Shensëi", "PureLunar"]
     #TEST_SQUAD_LIST_5 = ["PureLunar", "Serandipityyy"]
     #Shensëi
 
     squadStart = time.time()
-    memberList = TEST_SQUAD_LIST_5
+    memberList = TEST_SQUAD_LIST_01
     squad = new_squad(memberList, APIKEY)
     squadEnd = time.time()
     totalSquadTime = round((squadEnd - squadStart), 2)
