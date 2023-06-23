@@ -56,7 +56,7 @@ Optimizations:
 		[NA1_1234567890]
 
 		
-openpyxl Needs
+openpyxl Needs (REDACTED AND NO LONGER NEEDED)
 	Need (1) - 1/9/23
 		Pull the unique ID from worksheet 
 		Will Need (1)
@@ -69,10 +69,12 @@ openpyxl Needs
 		Learn how to determine if a cell contains data or is empty
 
 TESTING IDEAS
+	(Completed - See "clear_all_member_data_sets" in "update_squad")
 	In case something goes wrong and data was added incorrectly, have an algorithm
 	to reset data points in the database so the system can be ran through again. (DONE)
 	Test Member data accuracy by ensuring matches lost + matches played equals total 
 	matches.
+	(Completed - See output after Riot API requesting finishes)
 	Validate number of matches played for each member individually, the squad total,
 	and a manual count of all matchID's for a given match type.
 
