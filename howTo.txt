@@ -31,8 +31,6 @@ Firebase - Hosting
 	Deploy changes to project & web page code in index.html
 		firebase deploy --only hosting
 	
-
-
 Learned idiosyncrocies -->
 	(1) Can use "Event().wait(1)" to have program wait 1 second in between"
 	(2) App should allow for dynamically sized squad sizes from 2-5

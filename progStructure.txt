@@ -25,20 +25,16 @@ TheSquad
 
 
 In-App Squad Reference Structure
-# player_info = [name, acctId, id, lvl, puuId]
-# 
-#              [   0   ]   [   1   ]   [   2   ]   [   3   ]   [   4   ]
-# squad = [0]  [name0  ]   [name1  ]   [name2  ]   [name3  ]   [name4  ]
-#         [1]  [acctId0]   [acctId1]   [acctId2]   [acctId3]   [acctId4]
-#         [2]  [id0    ]   [id1    ]   [id2    ]   [id3    ]   [id4    ]
-#         [3]  [lvl0   ]   [lvl1   ]   [lvl2   ]   [lvl3   ]   [lvl4   ]
-#         [4]  [puuId0 ]   [puuId1 ]   [puuId2 ]   [puuId3 ]   [puuId4 ]
+  # player_info = [name, acctId, id, lvl, puuId]
+  # 
+  #              [   0   ]   [   1   ]   [   2   ]   [   3   ]   [   4   ]
+  # squad = [0]  [name0  ]   [name1  ]   [name2  ]   [name3  ]   [name4  ]
+  #         [1]  [acctId0]   [acctId1]   [acctId2]   [acctId3]   [acctId4]
+  #         [2]  [id0    ]   [id1    ]   [id2    ]   [id3    ]   [id4    ]
+  #         [3]  [lvl0   ]   [lvl1   ]   [lvl2   ]   [lvl3   ]   [lvl4   ]
+  #         [4]  [puuId0 ]   [puuId1 ]   [puuId2 ]   [puuId3 ]   [puuId4 ]
 
-Squad Execution Metrics to Track
-    - Number of Squad Members
-    - Count for number of recent matches pulled
-
-Champion Characteristics
+Champion Archetypes
     - Each champion will have an array of integers that represent
       different characteristics
         - The first value represents the most common position that
@@ -53,12 +49,6 @@ Champion Characteristics
             - [Enchanter-> 12] [Juggernaut-> 13] [Crowd Control-> 14]
 
 Firebase Structure
-# Parameters:
-#   squadID - Incoming as a string. Length is anywhere from 8 - 20 characters
-# Functions: 
-#   Take the squadID and the squad information and create the scaffolding for the file
-#   structure necessary to hold squad data
-# Result:
 #                                      
 #                                    /       
 #                                    |  --> sharedMatchLists --> sharedARAMMatchList
@@ -96,14 +86,11 @@ Firebase Structure
 #                       }
 #                   }
 #
-#***[Assasin-> 6] [Fighter-> 7] [Mage-> 8]
-#***[Marksman-> 9] [Support-> 10] [Tank-> 11]
-#***[Enchanter-> 12] [Juggernaut-> 13] [Crowd Control-> 14]
 #
 # def test_functional_basics(api_key):
-    #Output most recent match data about what character their played and in what role
-    #print("      championName: " + summ1MatchInfo['championName'])          #i.e. EZREAL
-    #print("individualPosition: " + summ1MatchInfo['individualPosition'])    #i.e. BOTTOM
-    #print("      teamPosition: " + summ1MatchInfo['teamPosition'])          #i.e. BOTTOM
-    #print("              role: " + summ1MatchInfo['role'])                  #i.e. CARRY
-    #print("              lane: " + summ1MatchInfo['lane'])                  #i.e. BOTTOM
+    # Output most recent match data about what character their played and in what role
+    # print("      championName: " + summ1MatchInfo['championName'])          #i.e. EZREAL
+    # print("individualPosition: " + summ1MatchInfo['individualPosition'])    #i.e. BOTTOM
+    # print("      teamPosition: " + summ1MatchInfo['teamPosition'])          #i.e. BOTTOM
+    # print("              role: " + summ1MatchInfo['role'])                  #i.e. CARRY
+    # print("              lane: " + summ1MatchInfo['lane'])                  #i.e. BOTTOM

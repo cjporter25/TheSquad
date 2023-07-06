@@ -84,7 +84,7 @@ I can use a statistical measure called confidence intervals. Confidence interval
 within which the true win rate is likely to fall. This will help me assess the reliability of the
 observed win rates and make comparisons between players.
 
-Here's a step-by-step approach to quantifying the significance of win rate:
+How to quantify the significance of Winrate vs. Matches played between players ->
 
 (1). Calculate the confidence intervals for each player's win rate using a suitable method such as the Wilson score 
 interval or the Agresti-Coull interval. These intervals take into account both the number of games played and the win rate.
