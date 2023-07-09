@@ -170,10 +170,10 @@ def build_squad(squad):
         print("     Squad not in database. Adding squad using ID#: " + squadID)
 
         create_squad_data_set(squadID, squadSize, db)
-    
-        add_squad_shared_match_lists(squadID, sharedMatchHistory, puuIDList, db)
 
         add_squad_members(squadID, memberInfo, db)
+    
+        add_squad_shared_match_lists(squadID, sharedMatchHistory, puuIDList, db)
 
         update_squad(squad, squadID, memberInfo, sharedMatchHistory, puuIDList, db)
 

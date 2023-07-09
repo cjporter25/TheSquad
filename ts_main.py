@@ -24,7 +24,7 @@ def open_homepage():
     #Shensëi
 
     squadStart = time.time()
-    memberList = TEST_SQUAD_LIST_01
+    memberList = TEST_SQUAD_LIST_1
     squad = new_squad(memberList, APIKEY)
     squadEnd = time.time()
     totalSquadTime = round((squadEnd - squadStart), 2)
